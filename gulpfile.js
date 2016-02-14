@@ -1,5 +1,7 @@
 'use strict';
 
+require('babel-core/register');
+
 var watchify = require('watchify');
 var browserify = require('browserify');
 var babel = require('babelify');
@@ -8,12 +10,13 @@ var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var gutil = require('gulp-util');
 var sourcemaps = require('gulp-sourcemaps');
-var assign = require('lodash.assign')
+var assign = require('lodash.assign');
 var del = require('del');
+var jasmine = require('gulp-jasmine');
 
 var opts = {
 	dest: './dist'
-}
+};
 
 var customBundleOpts = {
 	entries: ['./src/index.js'],
@@ -30,7 +33,7 @@ var browserifyBundler = browserify(bundleOpts)
 gulp.task('browserify', function () {
 	return browserifyBundler.bundle()
 		.on('error', gutil.log.bind(gutil, 'Browserify Error'))
-		.pipe(source('bundle.js'))
+		.pipe(source('humble_enhancer.user.js'))
 		.pipe(buffer())
 		.pipe(gulp.dest(opts.dest));
 });
@@ -45,7 +48,7 @@ gulp.task('watchify', function() {
 	function bundle() {
 		return bundler.bundle()
 			.on('error', gutil.log.bind(gutil, 'Browserify Error'))
-			.pipe(source('bundle.js'))
+			.pipe(source('humble_enhancer.user.js'))
 			.pipe(buffer())
 			.pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
 			.pipe(sourcemaps.write('./')) // writes .map file
@@ -53,6 +56,13 @@ gulp.task('watchify', function() {
 	}
 
 	return bundle();
+});
+
+gulp.task('test', function() {
+	gulp.src(['spec/**/*[sS]pec.js'])
+	.pipe(jasmine({
+		includeStackTrace: true
+	}));
 });
 
 gulp.task('clean', function() {
