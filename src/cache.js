@@ -27,7 +27,7 @@ export function getValue(type, id) {
  * @param {number=} expiry Unix timestamp after which the item should be considered expired
  */
 export function setValue(type, id, value, expiry) {
-	if(typeof value === 'object') {
+	if(typeof value === 'object' && value !== null) {
 		value = JSON.stringify(value);
 	}
 

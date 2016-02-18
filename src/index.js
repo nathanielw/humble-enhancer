@@ -41,42 +41,51 @@ function main() {
 
 	games.forEach((g) => {
 		let gameInfo = Cache.getValue(TYPE_GAME, g.id);
-		if (gameInfo) {
-			g.setInfo(gameInfo);
-			g.displayInfo();
+		if (gameInfo !== undefined) {
+			if (gameInfo !== null) {
+				g.setInfo(gameInfo);
+				g.displayInfo();
+			}
 		} else {
 			// Get the game info from Cheapshark
-			// TODO: fetch more games and compare titles to find the best match. The current method sometimes gives the wrong
-			// game if the name on the page is a subset of another game's name.
-			Cheapshark.games({title: g.title, limit: 1}, (err, gamesData) => {
-				if (!err && gamesData.length > 0) {
-					g.setInfo(gamesData[0]);
+			Cheapshark.games({title: g.title, limit: 10}, (err, gamesData) => {
+				if (!err) {
+					if (gamesData.length > 0) {
+						let l = g.title.length;
+						gamesData.sort((a, b) => {
+							let ret = Math.abs(l - a.external.length) - Math.abs(l - b.external.length);
+							return ret;
+						});
 
-					// Get the game's Metacritic info from the deals endpoint
-					Cheapshark.deals({title: g.info.external, exact: 1}, (err, dealsData) => {
-						if (!err && dealsData.length > 0) {
-							// Store the deals now so they're not fetched again later
-							g.deals = dealsData;
+						g.setInfo(gamesData[0]);
 
-							for (let i = 0; i < dealsData.length; i++) {
-								let deal = dealsData[i];
+						// Get the game's Metacritic info from the deals endpoint
+						Cheapshark.deals({title: g.info.external, exact: 1}, (err, dealsData) => {
+							if (!err && dealsData.length > 0) {
+								// Store the deals now so they're not fetched again later
+								g.deals = dealsData;
 
-								if (deal.metacriticLink && deal.metacriticScore) {
-									g.setMetacriticInfo(parseInt(deal.metacriticScore), deal.metacriticLink);
-									break;
+								for (let i = 0; i < dealsData.length; i++) {
+									let deal = dealsData[i];
+
+									if (deal.metacriticLink && deal.metacriticScore) {
+										g.setMetacriticInfo(parseInt(deal.metacriticScore), deal.metacriticLink);
+										break;
+									}
 								}
+
+								Cache.setValue(TYPE_GAME, g.id, g.info, expiry);
+							} else {
+								// Still set the deals object so we don't try and fetch it again
+								g.deals = [];
 							}
 
-							Cache.setValue(TYPE_GAME, g.id, g.info, expiry);
-						} else {
-							// Still set the deals object so we don't try and fetch it again
-							g.deals = [];
-						}
-
-						g.displayInfo(g);
-					});
-				} else {
-					// TODO: handle game not found. Is anything actually needed? Push empty value to cache?
+							g.displayInfo(g);
+						});
+					} else {
+						// Store null for the game info so we don't try and fetch it again
+						Cache.setValue(TYPE_GAME, g.id, null, expiry);
+					}
 				}
 			});
 		}

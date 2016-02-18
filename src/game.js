@@ -45,7 +45,7 @@ export default class Game {
 	 * @param {string} link Path for the game on Metacritic, e.g. /game/pc/title
 	 */
 	setMetacriticInfo(score, link) {
-		if (typeof(score) !== 'number') {
+		if (typeof score !== 'number') {
 			throw Error('Invalid type: Metacritic score must be a number');
 		}
 

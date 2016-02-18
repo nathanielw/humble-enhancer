@@ -38,6 +38,13 @@ describe('setValue', () => {
 
 		expect(jasmine.getGlobal().GM_setValue).toHaveBeenCalledWith(jasmine.any(String), str);
 	});
+
+	it('does not alter null before storing', () => {
+		let n = null;
+		cache.setValue('key', 'id', n);
+
+		expect(jasmine.getGlobal().GM_setValue).toHaveBeenCalledWith(jasmine.any(String), n);
+	});
 });
 
 describe('getValue', () => {
