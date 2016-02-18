@@ -1,0 +1,25 @@
+@import 'variables';
+
+.he-price-list {
+	display: table;
+	width: 100%;
+
+	&__item {
+		display: table-row;
+
+		&:hover {
+			background: rgba(0,0,0,0.5);
+		}
+	}
+
+	&__cell {
+		display: table-cell;
+    padding: 5px $padding-med;
+    vertical-align: middle;
+    border-top: 1px solid #333;
+
+		&--right {
+			text-align: right;
+		}
+	}
+}

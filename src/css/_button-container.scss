@@ -1,0 +1,29 @@
+@import 'mixins';
+@import 'variables';
+
+.he-button-container {
+	@extend %clearfix;
+	box-sizing: border-box;
+	display: block;
+	width: 100%;
+	padding: 4px;
+	margin-bottom: 4px;
+	border-radius: 2px;
+	background: rgba($col-dark, 0.5);
+
+	&__group {
+		display: block;
+
+		&--left {
+			float: left;
+		}
+
+		&--right {
+			float: right;
+		}
+
+		& > * {
+			float: left;
+		}
+	}
+}

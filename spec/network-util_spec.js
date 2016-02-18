@@ -1,6 +1,6 @@
 'use strict';
 
-import * as net from '../src/network-util';
+import * as net from '../src/util/network-util';
 
 describe('queryStringify', () => {
 	it('returns a query string containing the given k-v pairs', () => {

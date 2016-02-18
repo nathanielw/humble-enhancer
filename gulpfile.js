@@ -13,6 +13,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var assign = require('lodash.assign');
 var del = require('del');
 var jasmine = require('gulp-jasmine');
+var sass = require('gulp-sass');
 
 var opts = {
 	dest: './dist'
@@ -65,10 +66,20 @@ gulp.task('test', function() {
 	}));
 });
 
+gulp.task('styles', function() {
+	return gulp.src('./src/css/**/*.scss')
+		.pipe(sass().on('error', sass.logError))
+		.pipe(gulp.dest(opts.dest));
+});
+
+gulp.task('styles:watch', ['styles'], function () {
+	gulp.watch('./src/css/**/*.scss', ['styles']);
+});
+
 gulp.task('clean', function() {
 	del.sync(opts.dest + '/**/*');
 });
 
-gulp.task('watch', ['watchify']);
+gulp.task('watch', ['watchify', 'styles:watch']);
 
 gulp.task('build', ['browserify']);

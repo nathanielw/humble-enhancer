@@ -1,0 +1,41 @@
+@import 'variables';
+
+@mixin score($bg-col, $fg-col) {
+	color: darken($fg-col, 25%) !important;
+	background: rgba($bg-col, 0.8);
+
+	transition: color, background;
+	transition-duration: $speed-med;
+
+	&:hover {
+		color: $fg-col !important;
+		background: rgba($bg-col, 1);
+	}
+}
+
+.he-metacritic {
+	&--lowest {
+		@include score(#e23434, #701010);
+	}
+
+	&--low {
+		@include score(#e28534, #703c10);
+	}
+
+	&--medium {
+		@include score(#f4d929, #9a8508);
+	}
+
+	&--high {
+		@include score(#b1d413, #5b6c0a);
+	}
+
+	&--highest {
+		@include score(#13e247, #086d23);
+	}
+
+	&:before,
+	&:after {
+		color: rgb(73, 79, 92) !important;
+	}
+}

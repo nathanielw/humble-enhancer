@@ -1,3 +1,5 @@
+'use strict';
+
 const EXPIRY_PREFIX = 'expiry';
 const LAST_CLEARED_KEY = 'lastcleared';
 
@@ -53,6 +55,15 @@ export function clearExpired() {
 				GM_deleteValue(mainKey);
 			}
 		}
+	});
+}
+
+/**
+ * Removes all items from the cache
+ */
+export function clearAll() {
+	GM_listValues().forEach((key) => {
+		GM_deleteValue(key);
 	});
 }
 

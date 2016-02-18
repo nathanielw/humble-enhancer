@@ -1,6 +1,6 @@
 'use strict';
 
-import *  as net from './network-util';
+import *  as net from './util/network-util';
 
 const API_URL = 'http://www.cheapshark.com/api/1.0/';
 
