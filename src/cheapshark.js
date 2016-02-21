@@ -22,6 +22,14 @@ export function deals(opts, callback) {
 	sendGet('deals', opts, callback);
 }
 
+/**
+ * Helper for accessing the /stores endpoint of the CheapShark API.
+ * @param {Cheapshark~dataCallback} callback Function to call with returned data.
+ */
+export function stores(callback) {
+	sendGet('stores', null, callback);
+}
+
 function sendGet(endpoint, opts, callback) {
 	net.httpGet(
 		API_URL + endpoint,

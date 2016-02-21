@@ -1,6 +1,6 @@
 'use strict';
 
-export default function escape(str) {
+export default function htmlEscape(str) {
 	return str.replace(/&/g, '&amp;')
 		.replace(/>/g, '&gt;')
 		.replace(/</g, '&lt;')
