@@ -12,9 +12,9 @@ import * as Constants from './constants';
 // @namespace     http://www.nwatson.nz/gmscripts
 // @description   Enhances Humble Bundle pages with additional info
 // @include       https://www.humblebundle.com/*
-// @exclude       https://www.humblebundle.com/books
-// @exclude       https://www.humblebundle.com/monthly
-// @exclude       https://www.humblebundle.com/store/*
+// @exclude       https://www.humblebundle.com/books*
+// @exclude       https://www.humblebundle.com/monthly*
+// @exclude       https://www.humblebundle.com/store*
 // @version       0.1.0
 // @grant         GM_xmlhttpRequest
 // @grant         GM_getValue

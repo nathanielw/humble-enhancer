@@ -5,7 +5,8 @@
 	width: 100%;
 
 	&__item {
-		display: table-row;
+		display: table-row !important;
+		font-weight: normal !important;
 
 		&:hover {
 			background: rgba(0,0,0,0.5);
@@ -14,9 +15,17 @@
 
 	&__cell {
 		display: table-cell;
-    padding: 5px $padding-med;
+    padding: 5px $padding-med/2;
     vertical-align: middle;
-    border-top: 1px solid #333;
+		border-top: 1px solid #333;
+
+		&:first-child {
+			padding-left: $padding-med;
+		}
+
+		&:last-child {
+			padding-right: $padding-med;
+		}
 
 		&--right {
 			text-align: right;
