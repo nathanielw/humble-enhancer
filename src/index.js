@@ -8,7 +8,7 @@ import StoreManager from './store-manager';
 import * as Constants from './constants';
 
 // ==UserScript==
-// @name          Humble Enhancher
+// @name          Humble Enhancer
 // @namespace     http://www.nwatson.nz/gmscripts
 // @description   Enhances Humble Bundle pages with additional info
 // @include       https://www.humblebundle.com/*

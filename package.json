@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "User script that enhances Humble Bundle pages with additional info",
   "author": "Nathaniel Watson <nathaniel@nwatson.nz>",
-  "license": "MIT",
+  "license": "GPL-3.0",
   "private": true,
   "devDependencies": {
     "babel-preset-es2015": "^6.3.13",
