@@ -5,12 +5,16 @@ UserScript (GreaseMonkey, TamperMonkey, etc.) for adding useful information abou
 Data displayed by the script comes from the [CheapShark](http://www.cheapshark.com/) API.
 
 ## Installing
-TODO
+1. Install [Greasemonkey](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/) for Firefox or [Tampermonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo) for Chrome.
+
+2. Visit the script's page on either [OpenUserJS](https://openuserjs.org/scripts/nathanielw/Humble_Enhancer) or [Greasy Fork](https://greasyfork.org/en/scripts/17343-humble-enhancer) and press the *Install* button.
+
+The script may work with other browsers and/or userscript systems, but it has only been tested in the latest versions of Firefox and Chrome.
 
 ## Building
 `npm install` to install all dependencies.
 
-`gulp watch` to watch for changes and build js and css automatically to `/dist/`.
+`gulp watch` to watch for changes and build js and css automatically to `/dist-dev/`.
 
 `gulp build:dist` to build js and css to `/dist/`, ready for distribution.
 
