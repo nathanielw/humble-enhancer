@@ -23,5 +23,5 @@
 // @grant         GM_addStyle
 // @connect       humblebundle.com
 // @connect       cheapshark.com
-// @resource      style style.css
+// @resource      style https://cdn.rawgit.com/nathanielw/humble-enhancer/v<%= pkg.version %>/dist/style.css
 // ==/UserScript==
