@@ -1,0 +1,167 @@
+.game-boxes .he-tooltip img {
+  margin: 0; }
+
+.game-boxes .he-tooltip a {
+  display: inline; }
+
+.he-button-container:after {
+  content: '';
+  display: table;
+  clear: both; }
+
+.he-button-container {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  padding: 4px;
+  margin-bottom: 4px;
+  border-radius: 2px;
+  background: rgba(23, 25, 29, 0.5); }
+  .he-button-container__group {
+    display: block; }
+    .he-button-container__group--left {
+      float: left; }
+    .he-button-container__group--right {
+      float: right; }
+    .he-button-container__group > * {
+      float: left; }
+
+.he-info-button {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  color: #eee;
+  background: transparent; }
+  .he-info-button:first-child {
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px; }
+  .he-info-button:last-child {
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px; }
+  .he-info-button i {
+    display: inline !important;
+    opacity: 0.6;
+    transition: opacity 0.2s; }
+  .he-info-button:hover i {
+    opacity: 0.9; }
+
+.he-metacritic--lowest {
+  color: black !important;
+  background: rgba(226, 52, 52, 0.8);
+  transition: color, background;
+  transition-duration: 0.2s; }
+  .he-metacritic--lowest:hover {
+    color: #701010 !important;
+    background: #e23434; }
+
+.he-metacritic--low {
+  color: black !important;
+  background: rgba(226, 133, 52, 0.8);
+  transition: color, background;
+  transition-duration: 0.2s; }
+  .he-metacritic--low:hover {
+    color: #703c10 !important;
+    background: #e28534; }
+
+.he-metacritic--medium {
+  color: #211c02 !important;
+  background: rgba(244, 217, 41, 0.8);
+  transition: color, background;
+  transition-duration: 0.2s; }
+  .he-metacritic--medium:hover {
+    color: #9a8508 !important;
+    background: #f4d929; }
+
+.he-metacritic--high {
+  color: black !important;
+  background: rgba(177, 212, 19, 0.8);
+  transition: color, background;
+  transition-duration: 0.2s; }
+  .he-metacritic--high:hover {
+    color: #5b6c0a !important;
+    background: #b1d413; }
+
+.he-metacritic--highest {
+  color: black !important;
+  background: rgba(19, 226, 71, 0.8);
+  transition: color, background;
+  transition-duration: 0.2s; }
+  .he-metacritic--highest:hover {
+    color: #086d23 !important;
+    background: #13e247; }
+
+.he-metacritic:before, .he-metacritic:after {
+  color: #494f5c !important; }
+
+.he-tooltip {
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  margin-top: 10px;
+  text-align: left;
+  color: #eee;
+  background: #17191d;
+  border-radius: 2px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.3);
+  z-index: -10;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s; }
+  .he-tooltip:before {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    margin-left: -10px;
+    border: 10px solid transparent;
+    border-top-width: 0;
+    border-bottom-color: #17191d; }
+  .he-tooltip--medium {
+    width: 250px;
+    margin-left: -125px; }
+  .he-tooltip__inner {
+    padding: 15px; }
+  .he-tooltip__title {
+    text-align: left;
+    font-size: 1.2em;
+    font-weight: bold;
+    line-height: 1.4;
+    margin: 0; }
+  .he-tooltip__subtitle {
+    font-size: 1em;
+    font-weight: normal;
+    line-height: 1; }
+
+.he-tooltipped {
+  position: relative; }
+  .he-tooltipped:hover .he-tooltip {
+    z-index: 100;
+    opacity: 1;
+    pointer-events: all; }
+
+.he-price-list {
+  display: table;
+  width: 100%; }
+  .he-price-list__item {
+    display: table-row !important;
+    font-weight: normal !important; }
+    .he-price-list__item:hover {
+      background: rgba(0, 0, 0, 0.5); }
+  .he-price-list__cell {
+    display: table-cell;
+    padding: 5px 7.5px;
+    vertical-align: middle;
+    border-top: 1px solid #333; }
+    .he-price-list__cell:first-child {
+      padding-left: 15px; }
+    .he-price-list__cell:last-child {
+      padding-right: 15px; }
+    .he-price-list__cell--right {
+      text-align: right; }

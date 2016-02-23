@@ -25,7 +25,8 @@ var addMetadata = lazypipe()
 	});
 
 var opts = {
-	dest: './dist'
+	dest: './dist-dev',
+	distDest: './dist'
 };
 
 var customBundleOpts = {
@@ -86,7 +87,7 @@ gulp.task('browserify:dist', function () {
 		.pipe(source('humble_enhancer.user.js'))
 		.pipe(buffer())
 		.pipe(addMetadata())
-		.pipe(gulp.dest(opts.dest));
+		.pipe(gulp.dest(opts.distDest));
 });
 
 gulp.task('test', function() {
