@@ -1,0 +1,27 @@
+// ==UserScript==
+// @name          Humble Enhancer
+// @author        <%= pkg.author %>
+// @namespace     http://www.nwatson.nz
+// @description   <%= pkg.description %>
+// @license       https://github.com/nathanielw/humble-enhancer/blob/master/LICENSE
+// @supportURL    <%= pkg.bugs.url %>
+// @homepageURL   <%= pkg.homepage %>
+// @source        <%= pkg.repository.url %>
+// @compatible    firefox
+// @compatible    chrome
+// @include       https://www.humblebundle.com/*
+// @exclude       https://www.humblebundle.com/books*
+// @exclude       https://www.humblebundle.com/monthly*
+// @exclude       https://www.humblebundle.com/store*
+// @version       <%= pkg.version %>
+// @grant         GM_xmlhttpRequest
+// @grant         GM_getValue
+// @grant         GM_setValue
+// @grant         GM_listValues
+// @grant         GM_deleteValue
+// @grant         GM_getResourceText
+// @grant         GM_addStyle
+// @connect       humblebundle.com
+// @connect       cheapshark.com
+// @resource      style style.css
+// ==/UserScript==

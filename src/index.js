@@ -7,25 +7,6 @@ import BundleGameView from './bundle-game-view';
 import StoreManager from './store-manager';
 import * as Constants from './constants';
 
-// ==UserScript==
-// @name          Humble Enhancer
-// @namespace     http://www.nwatson.nz/gmscripts
-// @description   Enhances Humble Bundle pages with additional info
-// @include       https://www.humblebundle.com/*
-// @exclude       https://www.humblebundle.com/books*
-// @exclude       https://www.humblebundle.com/monthly*
-// @exclude       https://www.humblebundle.com/store*
-// @version       0.1.0
-// @grant         GM_xmlhttpRequest
-// @grant         GM_getValue
-// @grant         GM_setValue
-// @grant         GM_listValues
-// @grant         GM_deleteValue
-// @grant         GM_getResourceText
-// @grant         GM_addStyle
-// @resource style style.css
-// ==/UserScript==
-
 const TYPE_GAME = 'game';
 
 function main() {

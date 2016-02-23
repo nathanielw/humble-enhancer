@@ -12,7 +12,7 @@ TODO
 
 `gulp watch` to watch for changes and build js and css automatically to `/dist/`.
 
-`gulp build` to build js and css to `/dist/`.
+`gulp build:dist` to build js and css to `/dist/`, ready for distribution.
 
 `gulp test` to run unit tests (found in the `/spec/` folder) using Jasmine.
 

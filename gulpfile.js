@@ -14,6 +14,15 @@ var assign = require('lodash.assign');
 var del = require('del');
 var jasmine = require('gulp-jasmine');
 var sass = require('gulp-sass');
+var lazypipe = require('lazypipe');
+var header = require('gulp-header');
+var fs = require('fs');
+var pkg = require('./package.json');
+
+var addMetadata = lazypipe()
+	.pipe(function() {
+		return header(fs.readFileSync('./src/metadata.txt', 'utf8'), { pkg: pkg });
+	});
 
 var opts = {
 	dest: './dist'
@@ -25,38 +34,59 @@ var customBundleOpts = {
 };
 
 var bundleOpts = assign({}, watchify.args, customBundleOpts);
-var browserifyBundler = browserify(bundleOpts)
-.transform(babel.configure({
-	// Use all of the ES2015 spec
-	presets: ['es2015']
-}));
+var babelOpts = {
+	presets: ['es2015'],
+	compact: false
+};
 
-gulp.task('browserify', function () {
-	return browserifyBundler.bundle()
+var browserifyBundler = browserify(bundleOpts)
+	.transform(babel.configure(babelOpts));
+
+function bundle(bundler) {
+	return bundler.bundle()
 		.on('error', gutil.log.bind(gutil, 'Browserify Error'))
 		.pipe(source('humble_enhancer.user.js'))
 		.pipe(buffer())
+		.pipe(addMetadata())
+		.pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
+		.pipe(sourcemaps.write('./')) // writes .map file
 		.pipe(gulp.dest(opts.dest));
+}
+
+gulp.task('browserify', function () {
+	return bundle(browserifyBundler);
 });
 
 gulp.task('watchify', function() {
-
 	var bundler = watchify(browserifyBundler);
 
-	bundler.on('update', bundle);
 	bundler.on('log', gutil.log);
+	bundler.on('update', function() {
+		bundle(bundler);
+	});
 
-	function bundle() {
-		return bundler.bundle()
-			.on('error', gutil.log.bind(gutil, 'Browserify Error'))
-			.pipe(source('humble_enhancer.user.js'))
-			.pipe(buffer())
-			.pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
-			.pipe(sourcemaps.write('./')) // writes .map file
-			.pipe(gulp.dest(opts.dest));
-	}
+	return bundle(bundler);
+});
 
-	return bundle();
+gulp.task('browserify:dist', function () {
+	var babelOptsDist = assign({}, babelOpts, {
+		sourceMaps: false,
+		comments: false
+	});
+
+	var bundleOptsDist = assign({}, customBundleOpts, {
+		debug: false
+	});
+
+	var bundler = browserify(bundleOptsDist)
+		.transform(babel.configure(babelOptsDist));
+
+	return bundler.bundle()
+		.on('error', gutil.log.bind(gutil, 'Browserify Error'))
+		.pipe(source('humble_enhancer.user.js'))
+		.pipe(buffer())
+		.pipe(addMetadata())
+		.pipe(gulp.dest(opts.dest));
 });
 
 gulp.task('test', function() {
@@ -82,4 +112,5 @@ gulp.task('clean', function() {
 
 gulp.task('watch', ['watchify', 'styles:watch']);
 
-gulp.task('build', ['browserify']);
+gulp.task('build', ['browserify', 'styles']);
+gulp.task('build:dist', ['clean', 'browserify:dist', 'styles']);
