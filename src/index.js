@@ -51,12 +51,20 @@ function initGameInfo(storeManager) {
 								// Store the deals now so they're not fetched again later
 								g.model.deals = dealsData;
 
-								for (let i = 0; i < dealsData.length; i++) {
+								let hasSteam = (g.model.info.steamAppID != null);
+								let hasMetacritic = false;
+
+								for (let i = 0; i < dealsData.length && !(hasSteam && hasMetacritic); i++) {
 									let deal = dealsData[i];
 
-									if (deal.metacriticLink && deal.metacriticScore) {
+									if (!hasMetacritic && deal.metacriticLink && deal.metacriticScore) {
 										g.model.setMetacriticInfo(parseInt(deal.metacriticScore), deal.metacriticLink);
-										break;
+										hasMetacritic = true;
+									}
+
+									if (!hasSteam && deal.storeID == 1) {
+										g.model.steamLink = Constants.DEAL_BASE + deal.dealID;
+										hasSteam = true;
 									}
 								}
 

@@ -1,6 +1,7 @@
 'use strict';
 
 const TITLE_REGEX = /[^a-zA-Z0-9\s]/g;
+const STEAM_BASE = 'http://store.steampowered.com/app/';
 
 /**
  * Model for a single game.
@@ -33,6 +34,18 @@ export default class Game {
 
 	get deals() {
 		return this._deals;
+	}
+
+	set steamLink(steamLink) {
+		this.info.steamLink = steamLink;
+	}
+
+	get steamLink() {
+		if (this.info.steamAppID != null) {
+			return STEAM_BASE + this.info.steamAppID;
+		} else {
+			return this.info.steamLink;
+		}
 	}
 
 	/**

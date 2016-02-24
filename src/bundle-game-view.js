@@ -3,8 +3,8 @@
 import Quantizer from './quantizer';
 import * as Cheapshark from './cheapshark';
 import htmlEscape from './util/html-escape';
+import { DEAL_BASE } from './constants';
 
-const DEAL_BASE = 'http://www.cheapshark.com/redirect.php?dealID=';
 const scoreQuantizer = new Quantizer(40, 99, ['lowest', 'low', 'medium', 'high', 'highest']);
 
 /**
@@ -44,8 +44,8 @@ export default class BundleGameView {
 					}
 				</div>
 				<div class='he-button-container__group he-button-container__group--right'>
-					${(this.model.info.steamAppID) ?
-						`<a class='he-info-button' href='http://store.steampowered.com/app/${this.model.info.steamAppID}'>
+					${(this.model.steamLink) ?
+						`<a class='he-info-button' href='${this.model.steamLink}'>
 							<i class='fa fa-steam'></i>
 						</a>` : ''
 					}
@@ -107,7 +107,7 @@ export default class BundleGameView {
 
 							if (store) {
 								list += `
-								<a class='he-price-list__item' href=${DEAL_BASE}${deal.dealID}>
+								<a class='he-price-list__item' href=${DEAL_BASE + deal.dealID}>
 									<span class='he-price-list__cell'>
 										<img src='//cheapshark.com/${htmlEscape(store.images.icon)}' />
 									</span>
