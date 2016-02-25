@@ -36,15 +36,9 @@ function initGameInfo(storeManager) {
 			}
 		} else {
 			// Get the game info from Cheapshark
-			Cheapshark.games({title: g.model.title, limit: 10}, (err, gamesData) => {
+			Cheapshark.games({title: g.model.title, limit: 10, exact: 1}, (err, gamesData) => {
 				if (!err) {
 					if (gamesData.length > 0) {
-						let l = g.model.title.length;
-						gamesData.sort((a, b) => {
-							let ret = Math.abs(l - a.external.length) - Math.abs(l - b.external.length);
-							return ret;
-						});
-
 						g.model.setInfo(gamesData[0]);
 
 						// Get the game's Metacritic info from the deals endpoint
