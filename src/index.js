@@ -6,10 +6,12 @@ import Game from './game';
 import BundleGameView from './bundle-game-view';
 import StoreManager from './store-manager';
 import * as Constants from './constants';
+import updateTasks from './util/update-tasks';
 
 const TYPE_GAME = 'game';
 
 function main() {
+	updateTasks();
 	cleanCache();
 	GM_addStyle(GM_getResourceText('style'));
 
