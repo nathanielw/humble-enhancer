@@ -13,7 +13,7 @@
 // @exclude       https://www.humblebundle.com/books*
 // @exclude       https://www.humblebundle.com/monthly*
 // @exclude       https://www.humblebundle.com/store*
-// @version       0.1.0
+// @version       0.2.0
 // @grant         GM_xmlhttpRequest
 // @grant         GM_getValue
 // @grant         GM_setValue
@@ -23,7 +23,7 @@
 // @grant         GM_addStyle
 // @connect       humblebundle.com
 // @connect       cheapshark.com
-// @resource      style https://cdn.rawgit.com/nathanielw/humble-enhancer/v0.1.0/dist/style.css
+// @resource      style https://cdn.rawgit.com/nathanielw/humble-enhancer/v0.2.0/dist/style.css
 // ==/UserScript==
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
@@ -46,13 +46,14 @@ var _htmlEscape = require('./util/html-escape');
 
 var _htmlEscape2 = _interopRequireDefault(_htmlEscape);
 
+var _constants = require('./constants');
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var DEAL_BASE = 'http://www.cheapshark.com/redirect.php?dealID=';
 var scoreQuantizer = new _quantizer2.default(40, 99, ['lowest', 'low', 'medium', 'high', 'highest']);
 
 var BundleGameView = function () {
@@ -74,7 +75,7 @@ var BundleGameView = function () {
 				(function () {
 					var buttonContainer = document.createElement('div');
 					buttonContainer.className = 'he-button-container';
-					buttonContainer.innerHTML = '\n\t\t\t\t<div class=\'he-button-container__group he-button-container__group--left\'>\n\t\t\t\t\t' + (_this.model.info.metacriticScore && _this.model.info.metacriticLink ? '<a class=\'he-info-button tooltip-top he-metacritic he-metacritic--' + scoreQuantizer.quantize(_this.model.info.metacriticScore) + '\'\n\t\t\t\t\t\t\tdata-tooltip=\'Metacritic score for ' + (0, _htmlEscape2.default)(_this.model.info.external) + '\'\n\t\t\t\t\t\t\thref=\'http://www.metacritic.com' + _this.model.info.metacriticLink + '\'>\n\t\t\t\t\t\t' + _this.model.info.metacriticScore + '\n\t\t\t\t\t\t</a>' : '') + '\n\t\t\t\t</div>\n\t\t\t\t<div class=\'he-button-container__group he-button-container__group--right\'>\n\t\t\t\t\t' + (_this.model.info.steamAppID ? '<a class=\'he-info-button\' href=\'http://store.steampowered.com/app/' + _this.model.info.steamAppID + '\'>\n\t\t\t\t\t\t\t<i class=\'fa fa-steam\'></i>\n\t\t\t\t\t\t</a>' : '') + '\n\t\t\t\t\t<span class=\'he-info-button he-info-button--price he-tooltipped\'>\n\t\t\t\t\t\t<i class=\'fa fa-usd\'></i>\n\t\t\t\t\t\t<div class=\'he-tooltip he-tooltip--medium\'>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</span>\n\t\t\t\t</div>';
+					buttonContainer.innerHTML = '\n\t\t\t\t<div class=\'he-button-container__group he-button-container__group--left\'>\n\t\t\t\t\t' + (_this.model.info.metacriticScore && _this.model.info.metacriticLink ? '<a class=\'he-info-button tooltip-top he-metacritic he-metacritic--' + scoreQuantizer.quantize(_this.model.info.metacriticScore) + '\'\n\t\t\t\t\t\t\tdata-tooltip=\'Metacritic score for ' + (0, _htmlEscape2.default)(_this.model.info.external) + '\'\n\t\t\t\t\t\t\thref=\'http://www.metacritic.com' + _this.model.info.metacriticLink + '\'>\n\t\t\t\t\t\t' + _this.model.info.metacriticScore + '\n\t\t\t\t\t\t</a>' : '') + '\n\t\t\t\t</div>\n\t\t\t\t<div class=\'he-button-container__group he-button-container__group--right\'>\n\t\t\t\t\t' + (_this.model.steamLink ? '<a class=\'he-info-button\' href=\'' + _this.model.steamLink + '\'>\n\t\t\t\t\t\t\t<i class=\'fa fa-steam\'></i>\n\t\t\t\t\t\t</a>' : '') + '\n\t\t\t\t\t<span class=\'he-info-button he-info-button--price he-tooltipped\'>\n\t\t\t\t\t\t<i class=\'fa fa-usd\'></i>\n\t\t\t\t\t\t<div class=\'he-tooltip he-tooltip--medium\'>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</span>\n\t\t\t\t</div>';
 
 					var priceButton = buttonContainer.querySelector('.he-info-button--price');
 					var priceTooltip = priceButton.querySelector('.he-tooltip');
@@ -117,7 +118,7 @@ var BundleGameView = function () {
 					var store = storeManager.getStore(parseInt(deal.storeID));
 
 					if (store) {
-						list += '\n\t\t\t\t\t\t\t\t<a class=\'he-price-list__item\' href=' + DEAL_BASE + deal.dealID + '>\n\t\t\t\t\t\t\t\t\t<span class=\'he-price-list__cell\'>\n\t\t\t\t\t\t\t\t\t\t<img src=\'//cheapshark.com/' + (0, _htmlEscape2.default)(store.images.icon) + '\' />\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t<span class=\'he-price-list__cell\'>\n\t\t\t\t\t\t\t\t\t\t' + (0, _htmlEscape2.default)(store.storeName) + '\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t<span class=\'he-price-list__cell he-price-list__cell--right\'>\n\t\t\t\t\t\t\t\t\t\t$' + deal.salePrice + '\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t</a>';
+						list += '\n\t\t\t\t\t\t\t\t<a class=\'he-price-list__item\' href=' + (_constants.DEAL_BASE + deal.dealID) + '>\n\t\t\t\t\t\t\t\t\t<span class=\'he-price-list__cell\'>\n\t\t\t\t\t\t\t\t\t\t<img src=\'//cheapshark.com/' + (0, _htmlEscape2.default)(store.images.icon) + '\' />\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t<span class=\'he-price-list__cell\'>\n\t\t\t\t\t\t\t\t\t\t' + (0, _htmlEscape2.default)(store.storeName) + '\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t<span class=\'he-price-list__cell he-price-list__cell--right\'>\n\t\t\t\t\t\t\t\t\t\t$' + deal.salePrice + '\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t</a>';
 					}
 				}
 				return list;
@@ -129,7 +130,7 @@ var BundleGameView = function () {
 }();
 
 exports.default = BundleGameView;
-},{"./cheapshark":3,"./quantizer":7,"./util/html-escape":9}],2:[function(require,module,exports){
+},{"./cheapshark":3,"./constants":4,"./quantizer":7,"./util/html-escape":9}],2:[function(require,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
@@ -262,6 +263,8 @@ var SECONDS = exports.SECONDS = 1000;
 var MINUTES = exports.MINUTES = 60000;
 var HOURS = exports.HOURS = 3600000;
 var DAYS = exports.DAYS = 8640000;
+
+var DEAL_BASE = exports.DEAL_BASE = 'http://www.cheapshark.com/redirect.php?dealID=';
 },{}],5:[function(require,module,exports){
 'use strict';
 
@@ -274,6 +277,7 @@ Object.defineProperty(exports, "__esModule", {
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var TITLE_REGEX = /[^a-zA-Z0-9\s]/g;
+var STEAM_BASE = 'http://store.steampowered.com/app/';
 
 var Game = function () {
 	function Game(title) {
@@ -315,6 +319,18 @@ var Game = function () {
 		get: function get() {
 			return this._deals;
 		}
+	}, {
+		key: 'steamLink',
+		set: function set(steamLink) {
+			this.info.steamLink = steamLink;
+		},
+		get: function get() {
+			if (this.info.steamAppID != null) {
+				return STEAM_BASE + this.info.steamAppID;
+			} else {
+				return this.info.steamLink;
+			}
+		}
 	}]);
 
 	return Game;
@@ -348,6 +364,10 @@ var _constants = require('./constants');
 
 var Constants = _interopRequireWildcard(_constants);
 
+var _updateTasks = require('./util/update-tasks');
+
+var _updateTasks2 = _interopRequireDefault(_updateTasks);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
@@ -357,6 +377,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 var TYPE_GAME = 'game';
 
 function main() {
+	(0, _updateTasks2.default)();
 	cleanCache();
 	GM_addStyle(GM_getResourceText('style'));
 
@@ -376,39 +397,39 @@ function initGameInfo(storeManager) {
 				g.displayInfo(storeManager);
 			}
 		} else {
-			Cheapshark.games({ title: g.model.title, limit: 10 }, function (err, gamesData) {
+			Cheapshark.games({ title: g.model.title, limit: 10, exact: 1 }, function (err, gamesData) {
 				if (!err) {
 					if (gamesData.length > 0) {
-						(function () {
-							var l = g.model.title.length;
-							gamesData.sort(function (a, b) {
-								var ret = Math.abs(l - a.external.length) - Math.abs(l - b.external.length);
-								return ret;
-							});
+						g.model.setInfo(gamesData[0]);
 
-							g.model.setInfo(gamesData[0]);
+						Cheapshark.deals({ title: g.model.info.external, exact: 1 }, function (err, dealsData) {
+							if (!err && dealsData.length > 0) {
+								g.model.deals = dealsData;
 
-							Cheapshark.deals({ title: g.model.info.external, exact: 1 }, function (err, dealsData) {
-								if (!err && dealsData.length > 0) {
-									g.model.deals = dealsData;
+								var hasSteam = g.model.info.steamAppID != null;
+								var hasMetacritic = false;
 
-									for (var i = 0; i < dealsData.length; i++) {
-										var deal = dealsData[i];
+								for (var i = 0; i < dealsData.length && !(hasSteam && hasMetacritic); i++) {
+									var deal = dealsData[i];
 
-										if (deal.metacriticLink && deal.metacriticScore) {
-											g.model.setMetacriticInfo(parseInt(deal.metacriticScore), deal.metacriticLink);
-											break;
-										}
+									if (!hasMetacritic && deal.metacriticLink && deal.metacriticScore) {
+										g.model.setMetacriticInfo(parseInt(deal.metacriticScore), deal.metacriticLink);
+										hasMetacritic = true;
 									}
 
-									Cache.setValue(TYPE_GAME, g.model.id, g.model.info, expiry);
-								} else {
-									g.model.deals = [];
+									if (!hasSteam && deal.storeID == 1) {
+										g.model.steamLink = Constants.DEAL_BASE + deal.dealID;
+										hasSteam = true;
+									}
 								}
 
-								g.displayInfo(storeManager);
-							});
-						})();
+								Cache.setValue(TYPE_GAME, g.model.id, g.model.info, expiry);
+							} else {
+								g.model.deals = [];
+							}
+
+							g.displayInfo(storeManager);
+						});
 					} else {
 						Cache.setValue(TYPE_GAME, g.model.id, null, expiry);
 					}
@@ -448,7 +469,7 @@ function findBundleGames() {
 }
 
 main();
-},{"./bundle-game-view":1,"./cache":2,"./cheapshark":3,"./constants":4,"./game":5,"./store-manager":8}],7:[function(require,module,exports){
+},{"./bundle-game-view":1,"./cache":2,"./cheapshark":3,"./constants":4,"./game":5,"./store-manager":8,"./util/update-tasks":11}],7:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -614,5 +635,65 @@ function responseHandler(callback, wasError) {
 			callback(null, response.responseText);
 		}
 	};
+}
+},{}],11:[function(require,module,exports){
+
+
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = updateTasks;
+
+var _cache = require('../cache');
+
+var Cache = _interopRequireWildcard(_cache);
+
+var _versionUtil = require('./version-util');
+
+var VersionUtil = _interopRequireWildcard(_versionUtil);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+var TYPE_VERSION = 'version';
+var ID_VERSION = 'installed';
+var VERSION = '0.2.0';
+
+function updateTasks() {
+	var oldVersion = Cache.getValue(TYPE_VERSION, ID_VERSION);
+
+	if (!oldVersion) {
+		performTasks();
+	} else {
+		var oldMajor = VersionUtil.getMajorVersion(oldVersion);
+		var newMajor = VersionUtil.getMajorVersion(VERSION);
+		var oldMinor = VersionUtil.getMinorVersion(oldVersion);
+		var newMinor = VersionUtil.getMinorVersion(VERSION);
+
+		if (newMajor !== oldMajor || newMajor === 0 && oldMinor !== newMinor) {
+			performTasks();
+		}
+	}
+}
+
+function performTasks() {
+	Cache.clearAll();
+	Cache.setValue(TYPE_VERSION, ID_VERSION, VERSION);
+}
+},{"../cache":2,"./version-util":12}],12:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getMajorVersion = getMajorVersion;
+exports.getMinorVersion = getMinorVersion;
+function getMajorVersion(verString) {
+  return parseInt(verString.split('.')[0]);
+}
+
+function getMinorVersion(verString) {
+  return parseInt(verString.split('.')[1]);
 }
 },{}]},{},[6]);

@@ -4,6 +4,9 @@
 .game-boxes .he-tooltip a {
   display: inline; }
 
+.game-border.fixed {
+  height: auto; }
+
 .he-button-container:after {
   content: '';
   display: table;
