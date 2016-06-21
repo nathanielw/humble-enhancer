@@ -102,7 +102,7 @@ function findBundleGames() {
 		let titleEl = gameEl.querySelector('.game-description h2');
 
 		if (titleEl !== null) {
-			let title = titleEl.textContent;
+			let title = titleEl.textContent.trim();
 
 			let game = new Game(title);
 			return new BundleGameView(gameEl, game);
